@@ -13,9 +13,9 @@ rvm:
 env:
   global:
     - COMMIT=${TRAVIS_COMMIT::8}
-    - EMAIL=piotrgrap@gmail.com
-    - USER=pmaciejo
-    - PASS=haslo123
+    - DOCKER_EMAIL=piotrgrap@gmail.com
+    - DOCKER_USER=pmaciejo
+    - DOCKER_PASS=haslo123
 
 after_success:
   - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
