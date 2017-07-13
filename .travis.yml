@@ -7,3 +7,6 @@ language: ruby
 
 rvm:
   - 2.3
+
+after_success:
+  -docker build -f Dockerfile -t rubyimage
