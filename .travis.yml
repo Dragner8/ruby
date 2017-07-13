@@ -8,5 +8,20 @@ language: ruby
 rvm:
   - 2.3
 
+
+
+env:
+  global:
+    - COMMIT=${TRAVIS_COMMIT::8}
+    - EMAIL=piotrgrap@gmail.com
+    - USER=pmaciejo
+    - PASS=haslo123
+
 after_success:
-  -docker build -f Dockerfile -t rubyimage
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - export REPO=pmaciejo/testrepo
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - docker build -f Dockerfile -t $REPO:$COMMIT
+  - docker tag $REPO:$COMMIT $REPO:$TAG
+  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker push $REPO 
